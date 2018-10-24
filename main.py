@@ -10,6 +10,6 @@ class Config:
 app.config.from_object(Config)
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    pass
+    return 'index'
 if __name__ == '__main__':
     app.run(debug=True)
