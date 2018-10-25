@@ -6,6 +6,11 @@ __pycache__/
 #
 .idea
 
+#
+migrations
+
+#
+logs/log*
 # C extensions
 *.so
 
