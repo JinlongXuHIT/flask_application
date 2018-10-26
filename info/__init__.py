@@ -12,8 +12,8 @@ from redis import StrictRedis
 from config import config_dict
 
 #
-db = None
-strict_redis = None
+db = None # type: SQLAlchemy
+strict_redis = None  # type : StrictRedis
 
 
 def setup_log():
@@ -41,18 +41,25 @@ def create_application(config_type):
     db = SQLAlchemy(app)
 
     # 创建redis连接对象
-    strict_redis = StrictRedis(host=config_class.REDIS_HOST, port=config_class.REDIS_PORT)
+    strict_redis = StrictRedis(host=config_class.REDIS_HOST, port=config_class.REDIS_PORT,decode_responses=True)
 
     # session对象
     Session(app)
 
     # 初始化migrate
     Migrate(app, db)
-    from info.modules.home import home_bp
+
     # register blueprint
+    from info.modules.home import home_bp
+
     app.register_blueprint(home_bp)
+    # 注册passport对应蓝图
+    from info.modules.passport import passport_bp
+    app.register_blueprint(passport_bp)
 
     # 配置日志
     setup_log()
 
+    # 导入创建表结构
+    import info.models
     return app
