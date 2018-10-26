@@ -13,4 +13,5 @@ manager.add_command('mc', MigrateCommand)
 
 if __name__ == '__main__':
     # app.run(debug=True)
+    # 管理器启动
     manager.run()
