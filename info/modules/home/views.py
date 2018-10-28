@@ -2,7 +2,7 @@ from flask import session, render_template, request, jsonify
 from flask import current_app
 
 from info.constants import HOME_PAGE_MAX_NEWS
-from info.models import User, News
+from info.models import User, News, Category
 from info.modules.home import home_bp
 import logging
 
@@ -26,6 +26,7 @@ def index():
 
     查询用户信息
     数据库查询排名前10数据
+    # add 查询新闻分类数据,渲染
     后端渲染
     :return:
     """
@@ -46,8 +47,16 @@ def index():
     news_list = [News.to_dict() for News in news_list]
     # 将模型转为字典
     user = user.to_dict() if user else None
+
+    # 查询所有的新闻分类,将数据传入模板渲染
+    categories = []
+    try:
+        categories = Category.query.all()
+    except Exception as e:
+        current_app.logger.error(e)
+
     # TODO 将用户信息传入模板渲染
-    return render_template('index.html', user=user,news_list= news_list)
+    return render_template('index.html', user=user,news_list= news_list,categories=categories)
 
 
 @home_bp.route('/favicon.ico', methods=['GET', 'POST'])
