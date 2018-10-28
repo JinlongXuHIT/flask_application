@@ -13,7 +13,7 @@ from config import config_dict
 
 #
 db = None # type: SQLAlchemy
-strict_redis = None  # type : StrictRedis
+strict_redis = None  # type: StrictRedis
 
 
 def setup_log():
@@ -57,9 +57,15 @@ def create_application(config_type):
     from info.modules.passport import passport_bp
     app.register_blueprint(passport_bp)
 
+    # 注册news对应蓝图
+    from info.modules.news import news_bp
+    app.register_blueprint(news_bp)
+
     # 配置日志
     setup_log()
-
+    # 导入过滤器
+    from info.utils.common import  func_index_convert
+    app.add_template_filter(func_index_convert,'index_convert')
     # 导入创建表结构
     import info.models
     return app

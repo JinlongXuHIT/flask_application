@@ -12,6 +12,9 @@ class Config:
     SQLALCHEMY_DATABASE_URI = 'mysql://root:mysql@127.0.0.1:3306/flask_app_demo'
     # 2>设置sql数据库地址变化属性
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # 3>设置sql数据库自动提交
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = True  # 每次请求结束后, 自动提交
+
     # redis 配置
 
     REDIS_HOST = "127.0.0.1"
